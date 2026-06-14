@@ -140,7 +140,6 @@ function updateSlider(el) {
 }
 
 function applyFilter() {
-  /* 1 — which categories are active in the filter panel */
   const catMap = { 'Snacks':'lanche', 'Almoço':'almoco', 'Vegano':'vegana', 'Doces':'doces', 'Drinks':'drinks' };
   const activeCats = [];
   document.querySelectorAll('.filter-cat.active .filter-cat-label').forEach(el => {
@@ -148,15 +147,12 @@ function applyFilter() {
     if (key) activeCats.push(key);
   });
 
-  /* 2 — max price from slider */
   const slider   = document.getElementById('price-slider');
   const maxPrice = parseInt(slider.value);
 
-  /* 3 — active chips */
   const activeChips = [];
   document.querySelectorAll('.chip.active').forEach(el => activeChips.push(el.textContent.trim().toLowerCase()));
 
-  /* 4 — apply visibility to every restaurant-item */
   let totalVisible = 0;
   const allSections = ['lanche','almoco','vegana','doces','drinks'];
 
@@ -169,20 +165,17 @@ function applyFilter() {
       const restData = restaurantData[cat][idx];
       if (!restData) return;
 
-      /* category filter */
       if (activeCats.length > 0 && !activeCats.includes(cat)) {
         item.style.display = 'none';
         return;
       }
 
-      /* price filter — use minimum price of restaurant (first number in range) */
       const minRestPrice = Math.min(...restData.items.map(i => i.price));
       if (minRestPrice > maxPrice) {
         item.style.display = 'none';
         return;
       }
 
-      /* chip filter — check if restaurant name or any item name contains chip keyword */
       if (activeChips.length > 0) {
         const haystack = (restData.name + ' ' + restData.items.map(i => i.name).join(' ')).toLowerCase();
         const matches  = activeChips.some(chip => haystack.includes(chip));
@@ -197,7 +190,6 @@ function applyFilter() {
       totalVisible++;
     });
 
-    /* sort by rating descending if checkbox is checked */
     if (filterBestRated && sectionVisible > 0) {
       const list = section.querySelector('.restaurant-list');
       const cards = Array.from(list.querySelectorAll('.restaurant-item'));
@@ -211,11 +203,9 @@ function applyFilter() {
       cards.forEach(c => list.appendChild(c));
     }
 
-    /* show/hide section based on visibility */
     section.style.display = (sectionVisible === 0 && activeCats.length > 0) ? 'none' : '';
   });
 
-  /* 5 — show active category section (use first active cat, or lanche default) */
   const targetCat = activeCats.length > 0 ? activeCats[0] : 'lanche';
   document.querySelectorAll('.cat-section').forEach(s => s.classList.remove('active'));
   document.getElementById('sec-' + targetCat).classList.add('active');
@@ -225,7 +215,6 @@ function applyFilter() {
     el.classList.toggle('active', key === targetCat);
   });
 
-  /* 6 — show filter banner */
   const parts = [];
   if (activeCats.length) parts.push(activeCats.map(c => ({lanche:'Lanches',almoco:'Almoço',vegana:'Vegana',doces:'Doces',drinks:'Drinks'}[c])).join(', '));
   if (maxPrice < 100)    parts.push('até R$' + maxPrice);
@@ -239,19 +228,15 @@ function applyFilter() {
 }
 
 function clearFilter() {
-  /* reset all restaurant-item visibility */
   document.querySelectorAll('.restaurant-item').forEach(el => el.style.display = '');
   document.querySelectorAll('.cat-section').forEach(s => s.style.display = '');
 
-  /* go back to lanche tab */
   document.querySelectorAll('.cat-section').forEach(s => s.classList.remove('active'));
   document.getElementById('sec-lanche').classList.add('active');
   document.querySelectorAll('.cat-item').forEach((el, i) => el.classList.toggle('active', i === 0));
 
-  /* hide banner */
   document.getElementById('filter-banner').classList.remove('visible');
 
-  /* reset filter panel state */
   filterBestRated = false;
   const box = document.getElementById('best-rated-box');
   if (box) { box.classList.remove('checked'); box.closest('.filter-checkbox-label').classList.remove('checked'); }
@@ -325,6 +310,76 @@ function updateSimTotal(items) {
 
 function closeModal() {
   document.getElementById('rest-modal').classList.remove('open');
+}
+
+/* ── Search ── */
+function handleSearch(query) {
+  const q = query.trim().toLowerCase();
+  if (!q) {
+    closeSearchModal();
+    return;
+  }
+
+  const results = [];
+
+  Object.entries(restaurantData).forEach(([cat, restaurants]) => {
+    restaurants.forEach((rest, restIdx) => {
+      // Match restaurant name
+      if (rest.name.toLowerCase().includes(q)) {
+        results.push({
+          type: 'restaurant',
+          emoji: rest.emoji,
+          bg: rest.bg,
+          name: rest.name,
+          sub: rest.rating,
+          cat, idx: restIdx,
+        });
+      }
+      // Match items
+      rest.items.forEach(item => {
+        if (item.name.toLowerCase().includes(q)) {
+          results.push({
+            type: 'item',
+            emoji: item.emoji,
+            bg: rest.bg,
+            name: item.name,
+            sub: 'em ' + rest.name,
+            price: 'R$' + item.price.toFixed(2).replace('.', ','),
+            cat, idx: restIdx,
+          });
+        }
+      });
+    });
+  });
+
+  const list = document.getElementById('search-results-list');
+
+  if (results.length === 0) {
+    list.innerHTML = `
+      <div class="search-no-results">
+        <div class="search-no-results-icon">🔍</div>
+        <div>Nenhum resultado para "<strong>${query}</strong>"</div>
+        <div style="font-size:12px;margin-top:6px;">Tente outro nome de restaurante ou prato.</div>
+      </div>`;
+  } else {
+    list.innerHTML = results.map(r => `
+      <div class="search-result-item" onclick="closeSearchModal();openRestModal('${r.cat}',${r.idx})">
+        <div class="search-result-emoji" style="background:${r.bg};">${r.emoji}</div>
+        <div class="search-result-info">
+          <div class="search-result-name">${r.name}</div>
+          <div class="search-result-sub">${r.sub}</div>
+        </div>
+        ${r.price ? `<div class="search-result-price">${r.price}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('search-modal').classList.add('open');
+}
+
+function closeSearchModal() {
+  document.getElementById('search-modal').classList.remove('open');
+  // Don't clear the input so user can keep editing
 }
 
 /* ── Support Chat ── */

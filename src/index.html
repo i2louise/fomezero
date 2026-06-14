@@ -51,28 +51,28 @@
       </div>
     </div>
     <div class="user-menu-list">
-      <div class="user-menu-item">
+      <div class="user-menu-item" onclick="closePanels();goTo('profile')">
         <div class="user-menu-item-icon">👤</div>
         <div class="user-menu-item-label">Meu Perfil</div>
       </div>
-      <div class="user-menu-item">
+      <div class="user-menu-item" onclick="closePanels();goTo('coupons')">
         <div class="user-menu-item-icon">🎟️</div>
         <div class="user-menu-item-label">Meus Cupons</div>
       </div>
-      <div class="user-menu-item">
+      <div class="user-menu-item" onclick="closePanels();goTo('myreviews')">
         <div class="user-menu-item-icon">⭐</div>
         <div class="user-menu-item-label">Minhas Avaliações</div>
       </div>
-      <div class="user-menu-item">
+      <div class="user-menu-item" onclick="closePanels();goTo('contact')">
         <div class="user-menu-item-icon">📞</div>
         <div class="user-menu-item-label">Entre em Contato Conosco</div>
       </div>
-      <div class="user-menu-item">
+      <div class="user-menu-item" onclick="closePanels();goTo('settings')">
         <div class="user-menu-item-icon">⚙️</div>
         <div class="user-menu-item-label">Configurações</div>
       </div>
       <div class="user-menu-divider"></div>
-      <div class="user-menu-item danger">
+      <div class="user-menu-item danger" onclick="closePanels();goTo('welcome')">
         <div class="user-menu-item-icon">🚪</div>
         <div class="user-menu-item-label">Sair da Conta</div>
       </div>
@@ -97,6 +97,17 @@
         <div class="sim-total-value" id="sim-total-val">R$0,00</div>
       </div>
       <button class="sim-btn">🧮 Simular Preço</button>
+    </div>
+  </div>
+
+  <!-- SEARCH RESULTS MODAL -->
+  <div class="modal-overlay" id="search-modal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div class="modal-title">🔍 Resultados da Busca</div>
+        <button class="modal-close" onclick="closeSearchModal()">✕</button>
+      </div>
+      <div id="search-results-list"></div>
     </div>
   </div>
 
@@ -259,7 +270,7 @@
       <div class="home-top-row">
         <div class="search-bar">
           <span>🔍</span>
-          <input type="text" placeholder="Pesquisar...">
+          <input type="text" id="search-input" placeholder="Pesquisar..." oninput="handleSearch(this.value)" onkeydown="if(event.key==='Enter')handleSearch(this.value)">
         </div>
         <button class="filter-btn" onclick="goTo('filter')">⚡</button>
         <button class="icon-btn" onclick="openNotifPanel()">🔔</button>
@@ -725,6 +736,389 @@
       <button class="nav-btn" onclick="setNav(this);goTo('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
       <button class="nav-btn" onclick="setNav(this);goTo('favorites')"><span class="nav-icon">❤️</span><span class="nav-label">Favoritos</span></button>
       <button class="nav-btn active"><span class="nav-icon">🎧</span><span class="nav-label">Suporte</span></button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!--  NOVAS TELAS DO MENU LATERAL                  -->
+  <!-- ══════════════════════════════════════════════ -->
+
+  <!-- PROFILE -->
+  <div class="screen" id="profile">
+    <div class="inner-header">
+      <div class="status-bar" style="color:white;padding-bottom:4px;"><span>16:04</span><div class="status-icons">🔋</div></div>
+      <div class="inner-header-row">
+        <button class="back-btn-white" onclick="goTo('home')">‹</button>
+        <div class="inner-header-title">Meu Perfil</div>
+      </div>
+    </div>
+    <div class="inner-body">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar">👤</div>
+        <div class="profile-avatar-edit">✏️</div>
+      </div>
+      <div class="profile-name">Maria da Silva</div>
+      <div class="profile-email-tag">maria@email.com</div>
+
+      <div class="profile-info-card">
+        <div class="profile-info-row">
+          <div class="profile-info-label">Nome completo</div>
+          <div class="profile-info-value">Maria da Silva</div>
+        </div>
+        <div class="profile-divider"></div>
+        <div class="profile-info-row">
+          <div class="profile-info-label">Email</div>
+          <div class="profile-info-value">maria@email.com</div>
+        </div>
+        <div class="profile-divider"></div>
+        <div class="profile-info-row">
+          <div class="profile-info-label">Telefone</div>
+          <div class="profile-info-value">+55 79 99999-9999</div>
+        </div>
+        <div class="profile-divider"></div>
+        <div class="profile-info-row">
+          <div class="profile-info-label">Data de nascimento</div>
+          <div class="profile-info-value">12/03/1995</div>
+        </div>
+        <div class="profile-divider"></div>
+        <div class="profile-info-row">
+          <div class="profile-info-label">Endereço</div>
+          <div class="profile-info-value">Rua X, 123 – Aracaju, SE</div>
+        </div>
+        <div class="profile-divider"></div>
+        <div class="profile-info-row">
+          <div class="profile-info-label">Membro desde</div>
+          <div class="profile-info-value">Janeiro de 2026</div>
+        </div>
+      </div>
+
+      <div class="profile-stats-row">
+        <div class="profile-stat">
+          <div class="profile-stat-num">12</div>
+          <div class="profile-stat-label">Avaliações</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-num">5</div>
+          <div class="profile-stat-label">Cupons</div>
+        </div>
+      </div>
+
+      <button class="btn btn-login" style="margin-top:8px;">✏️ Editar Perfil</button>
+    </div>
+    <div class="bottom-nav">
+      <button class="nav-btn active" onclick="setNav(this);goTo('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+      <button class="nav-btn" onclick="setNav(this);goTo('favorites')"><span class="nav-icon">❤️</span><span class="nav-label">Favoritos</span></button>
+      <button class="nav-btn" onclick="setNav(this);goTo('support')"><span class="nav-icon">🎧</span><span class="nav-label">Suporte</span></button>
+    </div>
+  </div>
+
+  <!-- COUPONS -->
+  <div class="screen" id="coupons">
+    <div class="inner-header">
+      <div class="status-bar" style="color:white;padding-bottom:4px;"><span>16:04</span><div class="status-icons">🔋</div></div>
+      <div class="inner-header-row">
+        <button class="back-btn-white" onclick="goTo('home')">‹</button>
+        <div class="inner-header-title">Meus Cupons</div>
+      </div>
+    </div>
+    <div class="inner-body">
+      <div class="coupon-card">
+        <div class="coupon-left">
+          <div class="coupon-emoji">🔥</div>
+          <div>
+            <div class="coupon-code">FOME20</div>
+            <div class="coupon-desc">20% OFF em qualquer pedido acima de R$40</div>
+          </div>
+        </div>
+        <div class="coupon-right">
+          <div class="coupon-discount">20%</div>
+          <div class="coupon-timer">⏰ Expira em <strong>2 dias</strong></div>
+        </div>
+      </div>
+
+      <div class="coupon-card">
+        <div class="coupon-left">
+          <div class="coupon-emoji">🎉</div>
+          <div>
+            <div class="coupon-code">PRIMEIRAENTREGA</div>
+            <div class="coupon-desc">Frete grátis no seu próximo pedido</div>
+          </div>
+        </div>
+        <div class="coupon-right">
+          <div class="coupon-discount">🚚</div>
+          <div class="coupon-timer">⏰ Expira em <strong>5 dias</strong></div>
+        </div>
+      </div>
+
+      <div class="coupon-card">
+        <div class="coupon-left">
+          <div class="coupon-emoji">🍕</div>
+          <div>
+            <div class="coupon-code">PIZZA10</div>
+            <div class="coupon-desc">R$10 OFF em pizzarias parceiras</div>
+          </div>
+        </div>
+        <div class="coupon-right">
+          <div class="coupon-discount">R$10</div>
+          <div class="coupon-timer">⏰ Expira em <strong>12 dias</strong></div>
+        </div>
+      </div>
+
+      <div class="coupon-card coupon-expired">
+        <div class="coupon-left">
+          <div class="coupon-emoji">😔</div>
+          <div>
+            <div class="coupon-code">VERAO15</div>
+            <div class="coupon-desc">15% OFF em bebidas e drinks</div>
+          </div>
+        </div>
+        <div class="coupon-right">
+          <div class="coupon-discount" style="color:#bbb;">15%</div>
+          <div class="coupon-timer" style="color:#bbb;">Expirado</div>
+        </div>
+      </div>
+
+      <div class="coupon-card">
+        <div class="coupon-left">
+          <div class="coupon-emoji">🌱</div>
+          <div>
+            <div class="coupon-code">VEGANO25</div>
+            <div class="coupon-desc">25% OFF em restaurantes veganos</div>
+          </div>
+        </div>
+        <div class="coupon-right">
+          <div class="coupon-discount">25%</div>
+          <div class="coupon-timer">⏰ Expira em <strong>20 dias</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <button class="nav-btn active" onclick="setNav(this);goTo('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+      <button class="nav-btn" onclick="setNav(this);goTo('favorites')"><span class="nav-icon">❤️</span><span class="nav-label">Favoritos</span></button>
+      <button class="nav-btn" onclick="setNav(this);goTo('support')"><span class="nav-icon">🎧</span><span class="nav-label">Suporte</span></button>
+    </div>
+  </div>
+
+  <!-- MY REVIEWS -->
+  <div class="screen" id="myreviews">
+    <div class="inner-header">
+      <div class="status-bar" style="color:white;padding-bottom:4px;"><span>16:04</span><div class="status-icons">🔋</div></div>
+      <div class="inner-header-row">
+        <button class="back-btn-white" onclick="goTo('home')">‹</button>
+        <div class="inner-header-title">Minhas Avaliações</div>
+      </div>
+    </div>
+    <div class="inner-body">
+      <div class="review-card">
+        <div class="review-top">
+          <div class="review-rest-emoji">🌮</div>
+          <div class="review-rest-info">
+            <div class="review-rest-name">Restaurante Mexicano</div>
+            <div class="review-stars">⭐⭐⭐⭐⭐</div>
+          </div>
+          <div class="review-date">10/06/2026</div>
+        </div>
+        <div class="review-text">"Comida incrível, o taco de carne foi perfeito! Entrega rápida e tudo muito bem embalado. Com certeza vou pedir de novo."</div>
+        <div class="review-dish-tag">🌮 Taco Tradicional</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-top">
+          <div class="review-rest-emoji">🍔</div>
+          <div class="review-rest-info">
+            <div class="review-rest-name">Burguer House</div>
+            <div class="review-stars">⭐⭐⭐⭐⭐</div>
+          </div>
+          <div class="review-date">02/06/2026</div>
+        </div>
+        <div class="review-text">"O X-Burguer Especial é o melhor hambúrguer que já comi! Pão fresquinho, carne suculenta e o molho especial faz toda a diferença."</div>
+        <div class="review-dish-tag">🍔 X-Burguer Especial</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-top">
+          <div class="review-rest-emoji">🍰</div>
+          <div class="review-rest-info">
+            <div class="review-rest-name">Doce Encanto</div>
+            <div class="review-stars">⭐⭐⭐⭐</div>
+          </div>
+          <div class="review-date">25/05/2026</div>
+        </div>
+        <div class="review-text">"A torta de limão estava deliciosa! Só achei que poderia ter um pouco mais de creme. Mas o sabor estava ótimo e a embalagem super caprichada."</div>
+        <div class="review-dish-tag">🍰 Torta de Limão</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-top">
+          <div class="review-rest-emoji">🥗</div>
+          <div class="review-rest-info">
+            <div class="review-rest-name">Verde Vida</div>
+            <div class="review-stars">⭐⭐⭐⭐⭐</div>
+          </div>
+          <div class="review-date">18/05/2026</div>
+        </div>
+        <div class="review-text">"O bowl vegano é completo e muito saboroso! Ingredientes super frescos e o suco detox completou perfeitamente. Recomendo demais!"</div>
+        <div class="review-dish-tag">🥗 Bowl Vegano Completo</div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <button class="nav-btn active" onclick="setNav(this);goTo('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+      <button class="nav-btn" onclick="setNav(this);goTo('favorites')"><span class="nav-icon">❤️</span><span class="nav-label">Favoritos</span></button>
+      <button class="nav-btn" onclick="setNav(this);goTo('support')"><span class="nav-icon">🎧</span><span class="nav-label">Suporte</span></button>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="screen" id="contact">
+    <div class="inner-header">
+      <div class="status-bar" style="color:white;padding-bottom:4px;"><span>16:04</span><div class="status-icons">🔋</div></div>
+      <div class="inner-header-row">
+        <button class="back-btn-white" onclick="goTo('home')">‹</button>
+        <div class="inner-header-title">Fale Conosco</div>
+      </div>
+    </div>
+    <div class="inner-body">
+      <div class="contact-hero">
+        <div class="contact-hero-icon">💬</div>
+        <div class="contact-hero-title">Como podemos ajudar?</div>
+        <div class="contact-hero-sub">Escolha o canal de atendimento mais conveniente para você.</div>
+      </div>
+
+      <div class="contact-card" onclick="void(0)">
+        <div class="contact-card-icon" style="background:#fff3e0;">📧</div>
+        <div class="contact-card-info">
+          <div class="contact-card-title">E-mail</div>
+          <div class="contact-card-value">suporte@fomezero.com.br</div>
+          <div class="contact-card-hint">Resposta em até 24h</div>
+        </div>
+        <div class="contact-card-arrow">›</div>
+      </div>
+
+      <div class="contact-card" onclick="void(0)">
+        <div class="contact-card-icon" style="background:#e8f5e9;">📱</div>
+        <div class="contact-card-info">
+          <div class="contact-card-title">WhatsApp</div>
+          <div class="contact-card-value">+55 (79) 99999-9999</div>
+          <div class="contact-card-hint">Seg–Sex, 8h às 20h</div>
+        </div>
+        <div class="contact-card-arrow">›</div>
+      </div>
+
+      <div class="contact-card" onclick="goTo('support')">
+        <div class="contact-card-icon" style="background:#fce4ec;">🤖</div>
+        <div class="contact-card-info">
+          <div class="contact-card-title">Chat ao vivo</div>
+          <div class="contact-card-value">Assistente virtual</div>
+          <div class="contact-card-hint">Disponível agora</div>
+        </div>
+        <div class="contact-card-arrow">›</div>
+      </div>
+
+      <div class="contact-card" onclick="void(0)">
+        <div class="contact-card-icon" style="background:#e3f2fd;">📞</div>
+        <div class="contact-card-info">
+          <div class="contact-card-title">Telefone</div>
+          <div class="contact-card-value">0800 900 1234</div>
+          <div class="contact-card-hint">Gratuito · 24h por dia</div>
+        </div>
+        <div class="contact-card-arrow">›</div>
+      </div>
+
+      <div class="contact-social-row">
+        <div class="contact-social-label">Nossas redes sociais</div>
+        <div class="contact-social-btns">
+          <div class="contact-social-btn">📸</div>
+          <div class="contact-social-btn">🐦</div>
+          <div class="contact-social-btn">👍</div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <button class="nav-btn active" onclick="setNav(this);goTo('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+      <button class="nav-btn" onclick="setNav(this);goTo('favorites')"><span class="nav-icon">❤️</span><span class="nav-label">Favoritos</span></button>
+      <button class="nav-btn" onclick="setNav(this);goTo('support')"><span class="nav-icon">🎧</span><span class="nav-label">Suporte</span></button>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="screen" id="settings">
+    <div class="inner-header">
+      <div class="status-bar" style="color:white;padding-bottom:4px;"><span>16:04</span><div class="status-icons">🔋</div></div>
+      <div class="inner-header-row">
+        <button class="back-btn-white" onclick="goTo('home')">‹</button>
+        <div class="inner-header-title">Configurações</div>
+      </div>
+    </div>
+    <div class="inner-body">
+      <div class="settings-group-title">Preferências</div>
+      <div class="settings-card">
+        <div class="settings-row">
+          <div class="settings-row-icon">🔔</div>
+          <div class="settings-row-label">Notificações push</div>
+          <div class="settings-toggle active" onclick="this.classList.toggle('active')"></div>
+        </div>
+        <div class="settings-divider"></div>
+        <div class="settings-row">
+          <div class="settings-row-icon">📧</div>
+          <div class="settings-row-label">Emails promocionais</div>
+          <div class="settings-toggle" onclick="this.classList.toggle('active')"></div>
+        </div>
+        <div class="settings-divider"></div>
+        <div class="settings-row">
+          <div class="settings-row-icon">📍</div>
+          <div class="settings-row-label">Compartilhar localização</div>
+          <div class="settings-toggle active" onclick="this.classList.toggle('active')"></div>
+        </div>
+      </div>
+
+      <div class="settings-group-title">Conta</div>
+      <div class="settings-card">
+        <div class="settings-row">
+          <div class="settings-row-icon">🔒</div>
+          <div class="settings-row-label">Alterar senha</div>
+          <div class="settings-row-arrow">›</div>
+        </div>
+        <div class="settings-divider"></div>
+        <div class="settings-row">
+          <div class="settings-row-icon">💳</div>
+          <div class="settings-row-label">Formas de pagamento</div>
+          <div class="settings-row-arrow">›</div>
+        </div>
+        <div class="settings-divider"></div>
+        <div class="settings-row">
+          <div class="settings-row-icon">🏠</div>
+          <div class="settings-row-label">Endereços salvos</div>
+          <div class="settings-row-arrow">›</div>
+        </div>
+      </div>
+
+      <div class="settings-group-title">Sobre</div>
+      <div class="settings-card">
+        <div class="settings-row">
+          <div class="settings-row-icon">📄</div>
+          <div class="settings-row-label">Termos de uso</div>
+          <div class="settings-row-arrow">›</div>
+        </div>
+        <div class="settings-divider"></div>
+        <div class="settings-row">
+          <div class="settings-row-icon">🔐</div>
+          <div class="settings-row-label">Política de privacidade</div>
+          <div class="settings-row-arrow">›</div>
+        </div>
+        <div class="settings-divider"></div>
+        <div class="settings-row">
+          <div class="settings-row-icon">ℹ️</div>
+          <div class="settings-row-label">Versão do app</div>
+          <div class="settings-row-arrow" style="font-size:12px;color:#bbb;">v2.4.1</div>
+        </div>
+      </div>
+
+      <button class="btn btn-danger-outline" onclick="goTo('welcome')" style="margin-top:12px;">🚪 Sair da Conta</button>
+    </div>
+    <div class="bottom-nav">
+      <button class="nav-btn active" onclick="setNav(this);goTo('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+      <button class="nav-btn" onclick="setNav(this);goTo('favorites')"><span class="nav-icon">❤️</span><span class="nav-label">Favoritos</span></button>
+      <button class="nav-btn" onclick="setNav(this);goTo('support')"><span class="nav-icon">🎧</span><span class="nav-label">Suporte</span></button>
     </div>
   </div>
 
