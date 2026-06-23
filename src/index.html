@@ -59,7 +59,8 @@
         <div class="user-menu-item-icon">🎟️</div>
         <div class="user-menu-item-label">Meus Cupons</div>
       </div>
-      <div class="user-menu-item" onclick="closePanels();goTo('myreviews')">
+      <div class="user-menu-item"
+          onclick="abrirMinhasAvaliacoes()">
         <div class="user-menu-item-icon">⭐</div>
         <div class="user-menu-item-label">Minhas Avaliações</div>
       </div>
@@ -149,7 +150,14 @@
       </div>
     </div>
 
-      <div style="font-size:15px;font-weight:900;color:var(--text-dark);margin-bottom:12px;">Simular Pedido</div>
+      <div class="menu-title">
+          Cardápio
+      </div>
+
+      <div
+          class="menu-price-filter-info"
+          id="menu-price-filter-info"
+      ></div>
       <div class="sim-items" id="sim-items-list"></div>
 
       <div class="sim-total">
@@ -311,21 +319,26 @@
         >
       </div>
       <div class="field-group">
+        <label class="field-label" for="signup-telefone">
+            Número de Telefone
+        </label>
+
         <input
-          class="form-input"
-          type="tel"
-          id="signup-telefone"
-          placeholder="+55 79 99999-9999"
+            class="form-input"
+            type="tel"
+            id="signup-telefone"
+            placeholder="+55 79 99999-9999"
         >
-        <input class="form-input" type="tel" placeholder="+ 55 00 12345 - 6789">
       </div>
       <div class="field-group">
+        <label class="field-label" for="signup-nascimento">
+            Data de Nascimento
+        </label>
         <input
           class="form-input"
           type="date"
           id="signup-nascimento"
         >
-        <input class="form-input" type="text" placeholder="DD / MM / AAAA">
       </div>
       <div class="terms-text">
         Ao clicar em Registrar, você concorda com os
@@ -688,13 +701,35 @@
       <div class="divider"></div>
 
       <div class="price-section">
-        <div class="price-label">Preço</div>
-        <input type="range" class="price-slider" id="price-slider" min="1" max="100" value="100" oninput="updateSlider(this)">
-        <div class="price-range-labels">
-          <span>R$1</span>
-          <span>R$100</span>
-        </div>
-      </div>
+
+    <div class="price-header">
+        <div class="price-label">Preço máximo</div>
+
+        <output
+            class="price-current-value"
+            id="price-current-value"
+            for="price-slider"
+        >
+            R$ 100
+        </output>
+    </div>
+
+    <input
+        type="range"
+        class="price-slider"
+        id="price-slider"
+        min="1"
+        max="100"
+        value="100"
+        step="1"
+        oninput="updateSlider(this)"
+    >
+
+    <div class="price-range-labels">
+        <span>R$ 1</span>
+        <span>R$ 100</span>
+    </div>
+</div>
 
       <button class="btn btn-login" onclick="applyFilter()">Aplicar</button>
     </div>
@@ -981,73 +1016,59 @@
   </div>
 
   <!-- MY REVIEWS -->
-  <div class="screen" id="myreviews">
+
+<div class="screen" id="myreviews">
+
     <div class="inner-header">
-      <div class="status-bar" style="color:white;padding-bottom:4px;"><span>16:04</span><div class="status-icons">🔋</div></div>
-      <div class="inner-header-row">
-        <button class="back-btn-white" onclick="goTo('home')">‹</button>
-        <div class="inner-header-title">Minhas Avaliações</div>
-      </div>
+
+        <div class="status-bar"
+             style="color:white;padding-bottom:4px;">
+            <span>16:04</span>
+            <div class="status-icons"></div>
+        </div>
+
+        <div class="inner-header-row">
+
+            <button class="back-btn-white"
+                    onclick="goTo('home')">
+                ‹
+            </button>
+
+            <div class="inner-header-title">
+                Minhas Avaliações
+            </div>
+        </div>
     </div>
+
     <div class="inner-body">
-      <div class="review-card">
-        <div class="review-top">
-          <div class="review-rest-emoji">🌮</div>
-          <div class="review-rest-info">
-            <div class="review-rest-name">Restaurante Mexicano</div>
-            <div class="review-stars">⭐⭐⭐⭐⭐</div>
-          </div>
-          <div class="review-date">10/06/2026</div>
+        <div id="my-reviews-list">
+            <div class="my-reviews-message">
+                Carregando avaliações...
+            </div>
         </div>
-        <div class="review-text">"Comida incrível, o taco de carne foi perfeito! Entrega rápida e tudo muito bem embalado. Com certeza vou pedir de novo."</div>
-        <div class="review-dish-tag">🌮 Taco Tradicional</div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-top">
-          <div class="review-rest-emoji">🍔</div>
-          <div class="review-rest-info">
-            <div class="review-rest-name">Burguer House</div>
-            <div class="review-stars">⭐⭐⭐⭐⭐</div>
-          </div>
-          <div class="review-date">02/06/2026</div>
-        </div>
-        <div class="review-text">"O X-Burguer Especial é o melhor hambúrguer que já comi! Pão fresquinho, carne suculenta e o molho especial faz toda a diferença."</div>
-        <div class="review-dish-tag">🍔 X-Burguer Especial</div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-top">
-          <div class="review-rest-emoji">🍰</div>
-          <div class="review-rest-info">
-            <div class="review-rest-name">Doce Encanto</div>
-            <div class="review-stars">⭐⭐⭐⭐</div>
-          </div>
-          <div class="review-date">25/05/2026</div>
-        </div>
-        <div class="review-text">"A torta de limão estava deliciosa! Só achei que poderia ter um pouco mais de creme. Mas o sabor estava ótimo e a embalagem super caprichada."</div>
-        <div class="review-dish-tag">🍰 Torta de Limão</div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-top">
-          <div class="review-rest-emoji">🥗</div>
-          <div class="review-rest-info">
-            <div class="review-rest-name">Verde Vida</div>
-            <div class="review-stars">⭐⭐⭐⭐⭐</div>
-          </div>
-          <div class="review-date">18/05/2026</div>
-        </div>
-        <div class="review-text">"O bowl vegano é completo e muito saboroso! Ingredientes super frescos e o suco detox completou perfeitamente. Recomendo demais!"</div>
-        <div class="review-dish-tag">🥗 Bowl Vegano Completo</div>
-      </div>
     </div>
+
     <div class="bottom-nav">
-      <button class="nav-btn active" onclick="setNav(this);goTo('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
-      <button class="nav-btn" onclick="setNav(this);goTo('favorites')"><span class="nav-icon">❤️</span><span class="nav-label">Favoritos</span></button>
-      <button class="nav-btn" onclick="setNav(this);goTo('support')"><span class="nav-icon">🎧</span><span class="nav-label">Suporte</span></button>
+
+        <button class="nav-btn active"
+                onclick="setNav(this);goTo('home')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Home</span>
+        </button>
+
+        <button class="nav-btn"
+                onclick="setNav(this);goTo('favorites')">
+            <span class="nav-icon">❤️</span>
+            <span class="nav-label">Favoritos</span>
+        </button>
+
+        <button class="nav-btn"
+                onclick="setNav(this);goTo('support')">
+            <span class="nav-icon">💬</span>
+            <span class="nav-label">Suporte</span>
+        </button>
     </div>
-  </div>
+</div>
 
   <!-- CONTACT -->
   <div class="screen" id="contact">

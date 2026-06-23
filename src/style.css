@@ -528,6 +528,23 @@ body {
 .divider { height: 1px; background: #eee; margin: 0 0 20px; }
 
 .price-section { margin-bottom: 28px; }
+.price-header {
+    display: flex;
+    margin-bottom: 12px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.price-current-value {
+    min-width: 70px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: var(--orange);
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    text-align: center;
+}
 .price-label   { font-size: 18px; font-weight: 900; color: var(--orange); margin-bottom: 14px; }
 
 .price-slider {
@@ -1716,4 +1733,64 @@ body {
     margin-top: 2px;
     color: #777;
     font-size: 11px;
+}
+
+.menu-title {
+    margin-bottom: 4px;
+    color: var(--text-dark);
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.menu-price-filter-info {
+    margin-bottom: 12px;
+    color: var(--orange);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.my-reviews-message {
+    padding: 30px 12px;
+    color: var(--text-light);
+    text-align: center;
+    font-size: 14px;
+}
+
+.my-reviews-message.erro {
+    color: #c62828;
+}
+
+.my-reviews-empty {
+    display: flex;
+    min-height: 240px;
+    padding: 30px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--text-light);
+    text-align: center;
+}
+
+.my-reviews-empty-star {
+    color: #f5a623;
+    font-size: 48px;
+}
+
+.my-reviews-empty span {
+    max-width: 260px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.delete-review-button {
+    margin-top: 12px;
+    padding: 7px 10px;
+    border: 1px solid #c62828;
+    border-radius: 6px;
+    background: transparent;
+    color: #c62828;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
 }

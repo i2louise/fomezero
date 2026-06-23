@@ -249,6 +249,7 @@ function setNav(btn) {
 
 /* ── Filter ── */
 let filterBestRated = false;
+let filtroPrecoMaximo = null;
 
 function toggleFilterCat(el) { el.classList.toggle('active'); }
 function toggleChip(el) { el.classList.toggle('active'); }
@@ -262,9 +263,34 @@ function toggleBestRated() {
 }
 
 function updateSlider(el) {
-  const val = el.value;
-  const pct = ((val - 1) / 99) * 100;
-  el.style.background = `linear-gradient(to right, var(--orange) 0%, var(--orange) ${pct}%, #ddd ${pct}%)`;
+    const valor = Number(el.value);
+    const minimo = Number(el.min);
+    const maximo = Number(el.max);
+
+    const porcentagem =
+        ((valor - minimo) / (maximo - minimo)) * 100;
+
+    el.style.background = `
+        linear-gradient(
+            to right,
+            var(--orange) 0%,
+            var(--orange) ${porcentagem}%,
+            #ddd ${porcentagem}%,
+            #ddd 100%
+        )
+    `;
+
+    const elementoValor =
+        document.getElementById('price-current-value');
+
+    elementoValor.textContent = valor.toLocaleString(
+        'pt-BR',
+        {
+            style: 'currency',
+            currency: 'BRL',
+            maximumFractionDigits: 0
+        }
+    );
 }
 
 function applyFilter() {
@@ -277,6 +303,7 @@ function applyFilter() {
 
   const slider   = document.getElementById('price-slider');
   const maxPrice = parseInt(slider.value);
+  filtroPrecoMaximo = maxPrice;
 
   const activeChips = [];
   document.querySelectorAll('.chip.active').forEach(el => activeChips.push(el.textContent.trim().toLowerCase()));
@@ -356,6 +383,8 @@ function applyFilter() {
 }
 
 function clearFilter() {
+  filtroPrecoMaximo = null;
+
   document.querySelectorAll('.restaurant-item').forEach(el => el.style.display = '');
   document.querySelectorAll('.cat-section').forEach(s => s.style.display = '');
 
@@ -399,6 +428,12 @@ function closePanels() {
 function openRestModal(cat, idx) {
     const rest = restaurantData[cat][idx];
 
+    const itensFiltrados = filtroPrecoMaximo === null
+        ? rest.items
+        : rest.items.filter(
+                item => item.price <= filtroPrecoMaximo
+        );
+
     restauranteAvaliacaoAtual = rest.name;
     notaSelecionada = 0;
 
@@ -425,11 +460,21 @@ function openRestModal(cat, idx) {
 
     atualizarEstrelas();
 
-    simQtys = rest.items.map(() => 0);
+    simQtys = itensFiltrados.map(() => 0);
 
     const list = document.getElementById('sim-items-list');
 
-    list.innerHTML = rest.items.map((item, i) => `
+    const tituloCardapio =
+        document.getElementById('menu-price-filter-info');
+
+    if (tituloCardapio) {
+        tituloCardapio.textContent =
+                filtroPrecoMaximo === null
+                        ? ''
+                        : `Exibindo itens de até R$ ${filtroPrecoMaximo}`;
+    }
+
+    list.innerHTML = itensFiltrados.map((item, i) => `
         <div class="sim-item">
             <div class="sim-item-emoji">${item.emoji}</div>
 
@@ -447,7 +492,7 @@ function openRestModal(cat, idx) {
                     onclick="changeQty(
                         ${i},
                         -1,
-                        ${JSON.stringify(rest.items)
+                        ${JSON.stringify(itensFiltrados)
                             .replace(/"/g, '&quot;')}
                     )"
                 >
@@ -471,7 +516,7 @@ function openRestModal(cat, idx) {
         </div>
     `).join('');
 
-    updateSimTotal(rest.items);
+    updateSimTotal(itensFiltrados);
 
     document.getElementById('rest-modal')
         .classList.add('open');
@@ -530,10 +575,12 @@ async function publicarAvaliacao() {
         return;
     }
 
+    const usuarioAtual = obterUsuarioAtual();
+
     const avaliacao = {
         restaurante: restauranteAvaliacaoAtual,
-        usuarioNome: 'Maria da Silva',
-        usuarioEmail: 'maria@email.com',
+        usuarioNome: usuarioAtual.nome,
+        usuarioEmail: usuarioAtual.email,
         nota: notaSelecionada,
         comentario: comentario
     };
@@ -691,6 +738,19 @@ async function carregarAvaliacoes() {
     }
 }
 
+function obterUsuarioAtual() {
+    const usuarioSalvo = sessionStorage.getItem('usuario');
+
+    if (usuarioSalvo) {
+        return JSON.parse(usuarioSalvo);
+    }
+
+    return {
+        nome: 'Maria da Silva',
+        email: 'maria@email.com'
+    };
+}
+
 function obterIniciais(nome) {
     if (!nome) {
         return '?';
@@ -706,6 +766,155 @@ function obterIniciais(nome) {
         partes[0].charAt(0) +
         partes[partes.length - 1].charAt(0)
     ).toUpperCase();
+}
+
+function abrirMinhasAvaliacoes() {
+    closePanels();
+    goTo('myreviews');
+    carregarMinhasAvaliacoes();
+}
+
+async function carregarMinhasAvaliacoes() {
+    const lista = document.getElementById('my-reviews-list');
+    const usuarioAtual = obterUsuarioAtual();
+    const email = encodeURIComponent(usuarioAtual.email);
+
+    lista.innerHTML = `
+        <div class="my-reviews-message">
+            Carregando avaliações...
+        </div>
+    `;
+
+    try {
+        const resposta = await fetch(
+            `${API_AVALIACOES}/usuario/${email}`
+        );
+
+        if (!resposta.ok) {
+            throw new Error('Erro ao buscar avaliações');
+        }
+
+        const avaliacoes = await resposta.json();
+
+        if (avaliacoes.length === 0) {
+            lista.innerHTML = `
+                <div class="my-reviews-empty">
+                    <div class="my-reviews-empty-star">☆</div>
+
+                    <strong>Você ainda não avaliou nenhum restaurante.</strong>
+
+                    <span>
+                        Abra um restaurante e compartilhe sua experiência.
+                    </span>
+                </div>
+            `;
+
+            return;
+        }
+
+        lista.innerHTML = avaliacoes
+                .map(criarCardMinhaAvaliacao)
+                .join('');
+
+    } catch (erro) {
+        console.error(erro);
+
+        lista.innerHTML = `
+            <div class="my-reviews-message erro">
+                Não foi possível carregar suas avaliações.
+            </div>
+        `;
+    }
+}
+
+function criarCardMinhaAvaliacao(avaliacao) {
+    const data = new Date(avaliacao.data)
+            .toLocaleDateString('pt-BR');
+
+    const estrelas =
+            '★'.repeat(avaliacao.nota) +
+            '☆'.repeat(5 - avaliacao.nota);
+
+    return `
+        <div class="review-card">
+
+            <div class="review-top">
+
+                <div class="review-rest-emoji">
+                    ${buscarEmojiRestaurante(avaliacao.restaurante)}
+                </div>
+
+                <div class="review-rest-info">
+
+                    <div class="review-rest-name">
+                        ${avaliacao.restaurante}
+                    </div>
+
+                    <div class="review-stars">
+                        ${estrelas}
+                    </div>
+                </div>
+
+                <div class="review-date">
+                    ${data}
+                </div>
+            </div>
+
+            <div class="review-text">
+                ${avaliacao.comentario || 'Avaliação sem comentário.'}
+            </div>
+
+            <button
+                class="delete-review-button"
+                onclick="excluirMinhaAvaliacao(${avaliacao.id})"
+            >
+                Excluir avaliação
+            </button>
+        </div>
+    `;
+}
+
+function buscarEmojiRestaurante(nomeRestaurante) {
+    for (const restaurantes of Object.values(restaurantData)) {
+        const restaurante = restaurantes.find(
+            item => item.name === nomeRestaurante
+        );
+
+        if (restaurante) {
+            return restaurante.emoji;
+        }
+    }
+
+    return '🍽️';
+}
+
+async function excluirMinhaAvaliacao(id) {
+    const confirmou = confirm(
+        'Deseja realmente excluir esta avaliação?'
+    );
+
+    if (!confirmou) {
+        return;
+    }
+
+    try {
+        const resposta = await fetch(
+            `${API_AVALIACOES}/${id}`,
+            {
+                method: 'DELETE'
+            }
+        );
+
+        if (!resposta.ok) {
+            throw new Error('Erro ao excluir avaliação');
+        }
+
+        await carregarMinhasAvaliacoes();
+
+    } catch (erro) {
+        console.error(erro);
+        alert('Não foi possível excluir a avaliação.');
+    }
 }
 
 /* ── Search ── */
