@@ -58,6 +58,7 @@ const restaurantData = {
 };
 
 let simQtys = [];
+let itensSimulacaoAtual = [];
 
 const API_BASE_URL = 'http://localhost:8080/api';
 
@@ -626,6 +627,7 @@ function openRestModal(cat, idx) {
                 item => item.price <= filtroPrecoMaximo
         );
 
+    itensSimulacaoAtual = itensFiltrados;
     restauranteAvaliacaoAtual = rest.name;
     notaSelecionada = 0;
 
@@ -681,26 +683,18 @@ function openRestModal(cat, idx) {
             <div class="sim-item-qty">
                 <button
                     class="qty-btn"
-                    onclick="changeQty(
-                        ${i},
-                        -1,
-                        ${JSON.stringify(itensFiltrados)
-                            .replace(/"/g, '&quot;')}
-                    )"
+                    onclick="changeQty(${i}, -1)"
                 >
                     −
                 </button>
 
-                <span class="qty-num" id="qty-${i}">0</span>
+                <span class="qty-num" id="qty-${i}">
+                    0
+                </span>
 
                 <button
                     class="qty-btn"
-                    onclick="changeQty(
-                        ${i},
-                        1,
-                        ${JSON.stringify(rest.items)
-                            .replace(/"/g, '&quot;')}
-                    )"
+                    onclick="changeQty(${i}, 1)"
                 >
                     +
                 </button>
@@ -708,7 +702,7 @@ function openRestModal(cat, idx) {
         </div>
     `).join('');
 
-    updateSimTotal(itensFiltrados);
+    updateSimTotal();
 
     document.getElementById('rest-modal')
         .classList.add('open');
@@ -717,15 +711,56 @@ function openRestModal(cat, idx) {
     carregarAvaliacoes();
 }
 
-function changeQty(i, delta, items) {
-  simQtys[i] = Math.max(0, simQtys[i] + delta);
-  document.getElementById('qty-' + i).textContent = simQtys[i];
-  updateSimTotal(items);
+function changeQty(indice, quantidade) {
+    simQtys[indice] = Math.max(
+        0,
+        simQtys[indice] + quantidade
+    );
+
+    document.getElementById(
+        'qty-' + indice
+    ).textContent = simQtys[indice];
+
+    updateSimTotal();
 }
 
-function updateSimTotal(items) {
-  const total = simQtys.reduce((acc, q, i) => acc + q * items[i].price, 0);
-  document.getElementById('sim-total-val').textContent = 'R$' + total.toFixed(2).replace('.', ',');
+function updateSimTotal() {
+    const total = simQtys.reduce(
+        (soma, quantidade, indice) => {
+            const item =
+                itensSimulacaoAtual[indice];
+
+            if (!item) {
+                return soma;
+            }
+
+            return soma +
+                quantidade * item.price;
+        },
+        0
+    );
+
+    console.log('Quantidades:', simQtys);
+
+    console.log(
+        'Itens:',
+        itensSimulacaoAtual.map(item => ({
+            nome: item.name,
+            preco: item.price
+        }))
+    );
+
+    console.log('Total calculado:', total);
+
+    document.getElementById(
+        'sim-total-val'
+    ).textContent = total.toLocaleString(
+        'pt-BR',
+        {
+            style: 'currency',
+            currency: 'BRL'
+        }
+    );
 }
 
 function closeModal() {
