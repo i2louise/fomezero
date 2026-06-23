@@ -10,48 +10,48 @@ const onboardingData = [
 /* ── Restaurant data for simulation ── */
 const restaurantData = {
   lanche: [
-    { name:'Burguer House', emoji:'🍔', bg:'linear-gradient(160deg,#FFF0E8,#FFDDC8)', rating:'⭐ 5.0 · 25-40 min', items:[
+    { name:'Burguer House', emoji:'🍔', bg:'linear-gradient(160deg,#FFF0E8,#FFDDC8)', rating:'⭐ 5.0', items:[
       {emoji:'🍔',name:'X-Burguer Especial',price:28.90},{emoji:'🍟',name:'Batata Frita Grande',price:12.90},{emoji:'🥤',name:'Refrigerante 500ml',price:7.90},{emoji:'🧅',name:'Onion Rings',price:14.90}
     ]},
-    { name:'Restaurante Mexicano', emoji:'🌮', bg:'linear-gradient(160deg,#ffecd2,#fcb69f)', rating:'⭐ 4.9 · 30-45 min', items:[
+    { name:'Restaurante Mexicano', emoji:'🌮', bg:'linear-gradient(160deg,#ffecd2,#fcb69f)', rating:'⭐ 4.9', items:[
       {emoji:'🌮',name:'Taco Tradicional',price:22.90},{emoji:'🫔',name:'Burrito Especial',price:35.90},{emoji:'🥑',name:'Nachos + Guacamole',price:32.90},{emoji:'🫙',name:'Pico de Gallo',price:7.90}
     ]},
-    { name:'Sanduíche Gourmet', emoji:'🥪', bg:'linear-gradient(160deg,#ffe8cc,#ffa07a)', rating:'⭐ 4.7 · 20-35 min', items:[
+    { name:'Sanduíche Gourmet', emoji:'🥪', bg:'linear-gradient(160deg,#ffe8cc,#ffa07a)', rating:'⭐ 4.7', items:[
       {emoji:'🥪',name:'Club Sandwich',price:24.90},{emoji:'🥓',name:'BLT Especial',price:22.90},{emoji:'🧀',name:'Queijo Quente Premium',price:18.90}
     ]},
   ],
   almoco: [
-    { name:'Casa do Strogonoff', emoji:'🥘', bg:'linear-gradient(160deg,#ffd89b,#19547b)', rating:'⭐ 4.8 · 35-50 min', items:[
+    { name:'Casa do Strogonoff', emoji:'🥘', bg:'linear-gradient(160deg,#ffd89b,#19547b)', rating:'⭐ 4.8', items:[
       {emoji:'🍗',name:'Strogonoff de Frango',price:38.90},{emoji:'🥩',name:'Strogonoff de Carne',price:44.90},{emoji:'🍚',name:'Arroz + Feijão',price:8.90},{emoji:'🥔',name:'Batata Palha',price:5.90}
     ]},
-    { name:'La Cucina Italiana', emoji:'🍝', bg:'linear-gradient(160deg,#e0c3fc,#8ec5fc)', rating:'⭐ 5.0 · 40-55 min', items:[
+    { name:'La Cucina Italiana', emoji:'🍝', bg:'linear-gradient(160deg,#e0c3fc,#8ec5fc)', rating:'⭐ 5.0', items:[
       {emoji:'🍝',name:'Espaguete à Bolonhesa',price:45.90},{emoji:'🫕',name:'Lasanha Tradicional',price:52.90},{emoji:'🍕',name:'Pizza Margherita',price:48.90},{emoji:'🥗',name:'Salada Caesar',price:22.90}
     ]},
-    { name:'Comida Chinesa', emoji:'🍜', bg:'linear-gradient(160deg,#ffecd2,#fcb69f)', rating:'⭐ 4.8 · 30-45 min', items:[
+    { name:'Comida Chinesa', emoji:'🍜', bg:'linear-gradient(160deg,#ffecd2,#fcb69f)', rating:'⭐ 4.8', items:[
       {emoji:'🍜',name:'Yakisoba de Frango',price:32.90},{emoji:'🥟',name:'Rolinho Primavera (6un)',price:18.90},{emoji:'🍗',name:'Frango Xadrez',price:38.90},{emoji:'🍚',name:'Arroz Chop Suey',price:28.90}
     ]},
   ],
   vegana: [
-    { name:'Verde Vida', emoji:'🥗', bg:'linear-gradient(160deg,#E8F5E9,#C8E6C9)', rating:'⭐ 4.9 · 25-40 min', items:[
+    { name:'Verde Vida', emoji:'🥗', bg:'linear-gradient(160deg,#E8F5E9,#C8E6C9)', rating:'⭐ 4.9', items:[
       {emoji:'🥗',name:'Bowl Vegano Completo',price:35.90},{emoji:'🌱',name:'Salada Proteica',price:28.90},{emoji:'🥑',name:'Toast de Abacate',price:22.90},{emoji:'🧃',name:'Suco Detox',price:14.90}
     ]},
-    { name:'Naturalis', emoji:'🥦', bg:'linear-gradient(160deg,#a8edea,#fed6e3)', rating:'⭐ 4.7 · 30-40 min', items:[
+    { name:'Naturalis', emoji:'🥦', bg:'linear-gradient(160deg,#a8edea,#fed6e3)', rating:'⭐ 4.7', items:[
       {emoji:'🥦',name:'Strogonoff Vegano',price:38.90},{emoji:'🌽',name:'Hamburguer de Grão-de-bico',price:32.90},{emoji:'🫛',name:'Wrap Vegetal',price:26.90}
     ]},
   ],
   doces: [
-    { name:'Doce Encanto', emoji:'🍰', bg:'linear-gradient(160deg,#a8edea,#fed6e3)', rating:'⭐ 5.0 · 20-35 min', items:[
+    { name:'Doce Encanto', emoji:'🍰', bg:'linear-gradient(160deg,#a8edea,#fed6e3)', rating:'⭐ 5.0', items:[
       {emoji:'🍰',name:'Torta de Limão',price:18.90},{emoji:'🍮',name:'Pudim Tradicional',price:12.90},{emoji:'🎂',name:'Bolo de Chocolate',price:15.90},{emoji:'🍩',name:'Sonho Recheado',price:8.90}
     ]},
-    { name:'Cupcake Studio', emoji:'🧁', bg:'linear-gradient(160deg,#ffd6e7,#ffb3c6)', rating:'⭐ 4.8 · 15-30 min', items:[
+    { name:'Cupcake Studio', emoji:'🧁', bg:'linear-gradient(160deg,#ffd6e7,#ffb3c6)', rating:'⭐ 4.8', items:[
       {emoji:'🧁',name:'Cupcake Red Velvet',price:12.90},{emoji:'🍫',name:'Brigadeiro Gourmet (6un)',price:22.90},{emoji:'🍬',name:'Trufa de Chocolate',price:16.90}
     ]},
   ],
   drinks: [
-    { name:'Juice Bar', emoji:'🥤', bg:'linear-gradient(160deg,#ffecd2,#fcb69f)', rating:'⭐ 4.9 · 15-25 min', items:[
+    { name:'Juice Bar', emoji:'🥤', bg:'linear-gradient(160deg,#ffecd2,#fcb69f)', rating:'⭐ 4.9', items:[
       {emoji:'🍊',name:'Suco de Laranja Natural',price:12.90},{emoji:'🍹',name:'Smoothie Tropical',price:18.90},{emoji:'🥝',name:'Vitamina Verde',price:15.90},{emoji:'🫐',name:'Açaí 300ml',price:22.90}
     ]},
-    { name:'Shake & Co', emoji:'🧃', bg:'linear-gradient(160deg,#cce5ff,#99caff)', rating:'⭐ 4.6 · 20-30 min', items:[
+    { name:'Shake & Co', emoji:'🧃', bg:'linear-gradient(160deg,#cce5ff,#99caff)', rating:'⭐ 4.6', items:[
       {emoji:'🥛',name:'Milkshake de Chocolate',price:19.90},{emoji:'🍦',name:'Sorvete Duplo',price:14.90},{emoji:'🧊',name:'Frappé Especial',price:22.90}
     ]},
   ],
